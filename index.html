@@ -1,0 +1,127 @@
+0
+<!DOCTYPE html><html lang="pt">  <head>      <meta charset="UTF-8">        <title>Conselho Municipal da Cidade da Beira</title>      
+  <style>      
+    body {      
+      background: #2b2c6e;      
+      font-family: Arial, sans-serif;      
+      color: white;      
+      display: flex;      
+      justify-content: center;      
+      align-items: center;      
+      height: 100vh;      
+      margin: 0;      
+    }      
+    .container {      
+      background: white;      
+      color: #000;      
+      padding: 20px 30px;      
+      border-radius: 10px;      
+      width: 400px;      
+    }      
+    h2 {      
+      text-align: center;      
+      color: white;      
+      margin-bottom: 20px;      
+    }      
+    label {      
+      display: block;      
+      margin-top: 15px;      
+      font-weight: bold;      
+    }      
+    input, select {      
+      width: 100%;      
+      padding: 8px;      
+      margin-top: 5px;      
+      border-radius: 5px;      
+      border: 1px solid #ccc;      
+    }      
+    button {      
+      margin-top: 20px;      
+      width: 100%;      
+      padding: 10px;      
+      background: #2b2c6e;      
+      color: white;      
+      border: none;      
+      border-radius: 5px;      
+      cursor: pointer;      
+    }      
+    #sucesso {      
+      color: green;      
+      text-align: center;      
+      margin-top: 10px;      
+    }      
+  </style>      
+</head>      
+<body>      <div style="text-align: center; margin-bottom: 20px;">    
+  <img src="Beira1.jpg" alt="Logo da Beira" width="100"><br>    
+  <h2 style="color: white; margin-top: 10px;">Conselho Municipal da Cidade da Beira</h2>    
+</div>    
+  <div>      
+    <h2>Conselho Municipal da Cidade da Beira</h2>      
+    <div class="container">      
+      <label>Nome do Contribuinte:</label>      
+      <input type="text" id="nome"><label>Número da Banca do Comerciante:</label>      
+  <input type="text" id="banca">  <label>Tipo de Taxa:</label>    
+<select id="tipoTaxa" onchange="atualizarValor()">    
+<option value="">Selecione</option>    
+<option value="diaria">Taxa Diária</option>    
+<option value="semanal">Taxa Semanal</option>    
+<option value="mensal">Taxa Mensal</option>    
+</select>  <label>Valor a Pagar (MT):</label>  
+<input type="text" id="valor" readonly>  <label>Método de Pagamento:</label>
+<select id="metodo">
+
+<option value="">Selecione</option>    
+<option value="mpesa">M-Pesa</option>    
+<option value="emola">E-Mola</option>    
+<option value="mkesh">mKesh</option>    
+</select>  <button onclick="realizarPagamento()">Pagar</button>    <div id="sucesso"></div>      
+  <button onclick="baixarRecibo()">Baixar Recibo</button>      
+</div>    </div>  <script>      
+    function atualizarValor() {      
+      const tipo = document.getElementById('tipoTaxa').value;      
+      const valorInput = document.getElementById('valor');  if (tipo === 'diaria') valorInput.value = '10';      
+  else if (tipo === 'semanal') valorInput.value = '70';      
+  else if (tipo === 'mensal') valorInput.value = '250';      
+  else valorInput.value = '';      
+}    function realizarPagamento() {  
+const nome = document.getElementById('nome').value;  
+const banca = document.getElementById('banca').value;  
+const tipo = document.getElementById('tipoTaxa').value;  
+const valor = document.getElementById('valor').value;  
+const metodo = document.getElementById('metodo').value;  if (!nome || !banca || !tipo || !valor || !metodo) {
+alert("Preencha todos os campos!");
+return;
+}
+
+document.getElementById('sucesso').innerText = "Pagamento realizado com sucesso!";
+}
+
+function baixarRecibo() {
+const nome = document.getElementById('nome').value;
+const banca = document.getElementById('banca').value;
+const tipo = document.getElementById('tipoTaxa').value;
+const valor = document.getElementById('valor').value;
+const metodo = document.getElementById('metodo').value;
+
+const conteudo =
+
+`Recibo de Pagamento
+
+Contribuinte: ${nome}
+Banca: ${banca}
+Tipo de Taxa: ${tipo}
+Valor: ${valor} MT
+Método: ${metodo}
+`;
+
+const blob = new Blob([conteudo], { type: 'text/plain;charset=utf-8' });
+const link = document.createElement('a');
+link.href = URL.createObjectURL(blob);
+link.download = 'recibo.txt';
+link.click();
+}
+
+</script></body>
+
+</html>
